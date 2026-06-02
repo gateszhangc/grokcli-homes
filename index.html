@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta -->
+  <title>Grok CLI — A powerful coding agent and CLI for your terminal</title>
+  <meta name="title" content="Grok CLI — A powerful coding agent and CLI for your terminal" />
+  <meta name="description" content="Grok CLI is a powerful coding agent and CLI for complex coding work. Bring Grok into your terminal and start building with the Grok Build CLI." />
+  <meta name="keywords" content="Grok, CLI, terminal, coding agent, AI coding, Grok Build, command line tool, code assistant, xAI CLI" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://grokcli.me/" />
+  <meta property="og:title" content="Grok CLI — A powerful coding agent and CLI for your terminal" />
+  <meta property="og:description" content="A powerful coding agent and CLI for complex coding work. Bring Grok into your terminal." />
+  <meta property="og:image" content="/og-image.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://grokcli.me/" />
+  <meta property="twitter:title" content="Grok CLI — A powerful coding agent and CLI for your terminal" />
+  <meta property="twitter:description" content="A powerful coding agent and CLI for complex coding work. Bring Grok into your terminal." />
+  <meta property="twitter:image" content="/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #0a0a0b;
+      color: #e4e4e7;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    code { font-family: 'JetBrains Mono', monospace; }
+
+    /* ===== Container ===== */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navbar ===== */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid #1f1f23;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .nav-brand img { width: 36px; height: 36px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: #a1a1aa;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: #e4e4e7; }
+    .nav-cta {
+      padding: 8px 20px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      font-size: 13px;
+      color: #a1a1aa;
+      margin-bottom: 28px;
+    }
+    .hero-badge span {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-size: 18px;
+      color: #a1a1aa;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      color: #e4e4e7;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-secondary:hover { background: #27272a; }
+
+    /* Terminal snippet */
+    .terminal-snippet {
+      max-width: 640px;
+      margin: 48px auto 0;
+      background: #121214;
+      border: 1px solid #1f1f23;
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #18181b;
+      border-bottom: 1px solid #1f1f23;
+    }
+    .terminal-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .terminal-dot:nth-child(1) { background: #ef4444; }
+    .terminal-dot:nth-child(2) { background: #eab308; }
+    .terminal-dot:nth-child(3) { background: #22c55e; }
+    .terminal-body {
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #a1a1aa;
+    }
+    .terminal-body .prompt { color: #10b981; }
+    .terminal-body .cmd { color: #e4e4e7; }
+    .terminal-body .output { color: #a1a1aa; }
+
+    /* ===== Section common ===== */
+    .section {
+      padding: 100px 0;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #10b981;
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section .subtitle {
+      font-size: 16px;
+      color: #a1a1aa;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== Features Grid (like autoresearch.lol open sections) ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+    }
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feature-item .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #52525b;
+      letter-spacing: 0.5px;
+    }
+    .feature-item h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #e4e4e7;
+    }
+    .feature-item p {
+      font-size: 14px;
+      color: #71717a;
+      line-height: 1.7;
+    }
+
+    /* ===== Capabilities (two-column with cards) ===== */
+    .caps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .cap-card {
+      padding: 20px;
+      background: #121214;
+      border: 1px solid #1f1f23;
+      border-radius: 10px;
+      transition: border-color .2s;
+    }
+    .cap-card:hover { border-color: #10b981; }
+    .cap-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e4e4e7;
+      margin-bottom: 6px;
+    }
+    .cap-card p {
+      font-size: 13px;
+      color: #71717a;
+      line-height: 1.6;
+    }
+
+    /* ===== How It Works (steps like autoresearch) ===== */
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .step-card {
+      counter-increment: step;
+    }
+    .step-card .step-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #52525b;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .step-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e4e4e7;
+      margin-bottom: 8px;
+    }
+    .step-card p {
+      font-size: 14px;
+      color: #71717a;
+      line-height: 1.7;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .faq-item {
+      padding: 24px;
+      background: #121214;
+      border: 1px solid #1f1f23;
+      border-radius: 10px;
+    }
+    .faq-item summary {
+      font-weight: 600;
+      font-size: 15px;
+      color: #e4e4e7;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 18px;
+      color: #52525b;
+      transition: transform .2s;
+    }
+    .faq-item[open] summary::after {
+      content: '−';
+    }
+    .faq-item .answer {
+      margin-top: 14px;
+      font-size: 14px;
+      color: #71717a;
+      line-height: 1.7;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      text-align: center;
+      padding: 80px 0 100px;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .cta-section p {
+      color: #a1a1aa;
+      max-width: 500px;
+      margin: 0 auto 32px;
+      font-size: 16px;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid #1f1f23;
+      text-align: center;
+      font-size: 13px;
+      color: #52525b;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding: 60px 0 50px; }
+      .hero h1 { font-size: 36px; }
+      .section { padding: 60px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <nav class="nav container">
+    <a href="/" class="nav-brand">
+      <img src="./logo.svg" alt="Grok CLI" width="36" height="36" />
+      Grok CLI
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="https://mirofish.my/" target="_blank" rel="noopener" class="nav-cta">Get started</a>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero container">
+    <div class="hero-badge">
+      <span></span>
+      Beta — Now available
+    </div>
+    <h1>
+      Bring Grok into<br />
+      <em>your terminal</em>
+    </h1>
+    <p>
+      A powerful new coding agent and CLI for complex coding work.
+      Plan, build, test, and deploy — all from the command line.
+    </p>
+    <div class="hero-actions">
+      <a href="https://mirofish.my/" target="_blank" rel="noopener" class="btn-primary">
+        Get started
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l5 5-5 5"/></svg>
+      </a>
+      <a href="#features" class="btn-secondary">
+        Learn more
+      </a>
+    </div>
+
+    <div class="terminal-snippet">
+      <div class="terminal-header">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://x.ai/cli/install.sh | bash</span></div>
+        <div class="output">  ✓ Installing Grok CLI...</div>
+        <div class="output">  ✓ Ready.</div>
+        <div><span class="prompt">$</span> <span class="cmd">grok build --help</span></div>
+        <div class="output">  A powerful coding agent for your terminal.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features Section (open layout like autoresearch) ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Skills</div>
+        <h2>Adapt to your workflows</h2>
+        <p class="subtitle">Grok CLI adapts to your workflows and preferences with skills that work out of the box.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-item">
+          <span class="step-num">01</span>
+          <h3>Plug-and-play compatibility</h3>
+          <p>AGENTS.md, plugins, hooks, and MCP servers all work out of the box. No configuration needed.</p>
+        </div>
+        <div class="feature-item">
+          <span class="step-num">02</span>
+          <h3>Auto-invoked by context</h3>
+          <p>Skills fire automatically when a task matches, or call them by name. Capture any session with /skillify.</p>
+        </div>
+        <div class="feature-item">
+          <span class="step-num">03</span>
+          <h3>Plan mode for architecture</h3>
+          <p>The plan viewer makes it easy to architect complex projects. Start in plan mode — every edit is blocked until you approve.</p>
+        </div>
+        <div class="feature-item">
+          <span class="step-num">04</span>
+          <h3>Approve, comment, or rewrite</h3>
+          <p>Approve the plan, comment on individual steps, or rewrite it entirely. Every change shows up as a clean diff.</p>
+        </div>
+        <div class="feature-item">
+          <span class="step-num">05</span>
+          <h3>Marketplace plugins</h3>
+          <p>Bundle skills, agents, hooks, and MCP servers behind one install. Marketplace install or self-host from any git repo.</p>
+        </div>
+        <div class="feature-item">
+          <span class="step-num">06</span>
+          <h3>Subagent parallelism</h3>
+          <p>Grok CLI delegates larger tasks to specialized subagents. Each child runs in parallel with its own context window.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Core Loop ===== -->
+  <section class="section" style="padding-top: 0;" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">The loop</div>
+        <h2>One tool for the entire workflow</h2>
+        <p class="subtitle">Plan, build, test, and deploy — everything lives in one terminal interface.</p>
+      </div>
+      <div class="steps-list">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h3>Inspect the task</h3>
+          <p>The agent reads the context, understands the target, and decides what to change. Ambiguous tasks get a quick multiple-choice to nail the details.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h3>Edit and build</h3>
+          <p>Architecture, logic, tests, and configuration all live in the same workspace. Multi-file edits with search-and-replace.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h3>Run and verify</h3>
+          <p>Terminal execution streams builds and tests live. Background tasks monitor long-running processes.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">04</span>
+          <h3>Review and ship</h3>
+          <p>Line-by-line code review before opening a PR. Git integration for stage, commit, push, and branch management.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Capabilities ===== -->
+  <section class="section" style="padding-top: 0;" id="capabilities">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Everything you need</div>
+        <h2>One tool, every capability</h2>
+        <p class="subtitle">From planning to deployment, Grok CLI covers the full development workflow.</p>
+      </div>
+      <div class="caps-grid">
+        <div class="cap-card">
+          <h4>Plan mode</h4>
+          <p>Propose a structured approach before writing code.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Subagents</h4>
+          <p>Spawn parallel agents for testing and research.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Skills</h4>
+          <p>Turn workflows into reusable slash commands.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Hooks</h4>
+          <p>Run scripts on file edits and tool calls.</p>
+        </div>
+        <div class="cap-card">
+          <h4>MCP servers</h4>
+          <p>Connect to Linear, Sentry, Grafana, and more.</p>
+        </div>
+        <div class="cap-card">
+          <h4>AGENTS.md</h4>
+          <p>Set conventions and rules per directory.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Memory</h4>
+          <p>Persist decisions and context across sessions.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Code search</h4>
+          <p>Grep and navigate large codebases fast.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Multi-file edits</h4>
+          <p>Refactor across files with search-and-replace.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Git integration</h4>
+          <p>Stage, commit, push, and manage branches.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Deep reasoning</h4>
+          <p>Step-by-step thinking for hard problems.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Web search</h4>
+          <p>Look up docs and packages from the terminal.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Terminal execution</h4>
+          <p>Run builds and tests with live streaming.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Headless mode</h4>
+          <p>Script Grok CLI in CI/CD pipelines.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Code review</h4>
+          <p>Line-by-line feedback before opening a PR.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Sandboxed execution</h4>
+          <p>Run untrusted code in isolated environments.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Background tasks</h4>
+          <p>Monitor long-running builds and processes.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Theming</h4>
+          <p>Customize colors, fonts, and appearance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Q&A Section ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Q&amp;A</div>
+        <h2>Grok CLI asks the right questions</h2>
+        <p class="subtitle">Ambiguous tasks get a quick multiple-choice. Pick a direction, a framework, or a schema — answers flow straight into the plan.</p>
+      </div>
+      <div style="max-width: 640px; margin: 0 auto; background: #121214; border: 1px solid #1f1f23; border-radius: 12px; padding: 28px 32px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #52525b; margin-bottom: 16px;">
+          Waiting on answers for 3 questions &middot; turn: 7.1s
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="padding: 16px; border: 1px solid #10b981; border-radius: 8px; background: #0d1810;">
+            <div style="font-size: 11px; color: #52525b; margin-bottom: 6px; font-weight: 600;">1 / 3</div>
+            <div style="font-size: 15px; font-weight: 500; color: #e4e4e7;">Design direction</div>
+          </div>
+          <div style="padding: 16px; border: 1px solid #1f1f23; border-radius: 8px;">
+            <div style="font-size: 11px; color: #52525b; margin-bottom: 6px; font-weight: 600;">2 / 3</div>
+            <div style="font-size: 15px; font-weight: 500; color: #a1a1aa;">Framework preference</div>
+          </div>
+          <div style="padding: 16px; border: 1px solid #1f1f23; border-radius: 8px;">
+            <div style="font-size: 11px; color: #52525b; margin-bottom: 6px; font-weight: 600;">3 / 3</div>
+            <div style="font-size: 15px; font-weight: 500; color: #a1a1aa;">Schema decisions</div>
+          </div>
+        </div>
+        <div style="margin-top: 20px; display: flex; gap: 8px;">
+          <div style="flex: 1; padding: 10px 14px; border: 1px solid #27272a; border-radius: 8px; background: #18181b; color: #52525b; font-size: 14px;">Type your answer here...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" style="padding-top: 0;" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2>Common questions</h2>
+        <p class="subtitle">Start here if you want to know what Grok CLI is, how it works, and how to get started.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>What is Grok CLI?</summary>
+          <div class="answer">
+            Grok CLI is a powerful coding agent and command-line interface for complex coding work. It brings Grok's capabilities into your terminal, letting you plan, build, test, and deploy code through natural language commands and an intelligent agent system.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I install Grok CLI?</summary>
+          <div class="answer">
+            One command to install: <code>curl -fsSL https://x.ai/cli/install.sh | bash</code>. Works with any codebase, any language, right now. Grok CLI is available to SuperGrok and X Premium+ subscribers.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>What can Grok CLI do?</summary>
+          <div class="answer">
+            Grok CLI covers the entire development workflow: plan mode for architecture, subagents for parallel work, skills for reusable commands, hooks for automation, MCP server integration, code search, multi-file edits, git integration, deep reasoning, web search, terminal execution, code review, and more. One tool for everything.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Does Grok CLI support MCP servers?</summary>
+          <div class="answer">
+            Yes. Connect to Linear, Sentry, Postgres, Grafana, browsers — anything with MCP works out of the box. Bundle skills, agents, hooks, and MCP servers behind one install through the marketplace or self-host from any git repo.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>What is plan mode?</summary>
+          <div class="answer">
+            Plan mode lets you start with a structured approach for complex tasks. Every edit is blocked until you approve the plan. You can approve individual steps, comment on them, or rewrite the plan entirely. Every approved change shows up as a clean diff.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do subagents work?</summary>
+          <div class="answer">
+            Grok CLI delegates larger tasks to specialized subagents. Each child runs in parallel with its own context window, enabling deep worktree support. Launch subagents for research, testing, building, and reviewing — all at once.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section container">
+    <h2>Bring Grok into your terminal</h2>
+    <p>Install now and start building with the early beta of Grok CLI.</p>
+    <a href="https://mirofish.my/" target="_blank" rel="noopener" class="btn-primary">
+      Get started
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l5 5-5 5"/></svg>
+    </a>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer container">
+    &copy; 2026 Grok CLI. Built for the terminal.
+  </footer>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Grok CLI",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "description": "A powerful coding agent and CLI for complex coding work. Bring Grok into your terminal.",
+    "url": "https://grokcli.me/"
+  }
+  </script>
+</body>
+</html>
